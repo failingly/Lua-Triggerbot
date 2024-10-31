@@ -1,19 +1,23 @@
+getgenv().triggerbot = {
+    Settings = {
+        isEnabled = false,  -- Determines if clicking is enabled
+        clickDelay = 0.5,   -- Time in seconds to wait before clicking
+        toggleKey = Enum.KeyCode.T,  -- Key to toggle the clicking on and off
+        lastClickTime = 0   -- Tracks the last click time
+    }
+}
+
+--[[
+example settings:
+getgenv().triggerbot.Settings.clickDelay = 0.5
+getgenv().triggerbot.Settings.toggleKey = Enum.Keycode.E
+]]--
+
+
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local LocalPlayer = Players.LocalPlayer
 local mouse = LocalPlayer:GetMouse()
-
-local clickDelay = 0.2  -- Time in seconds to wait before clicking
-local toggleKey = Enum.KeyCode.T  -- Key to toggle the clicking on and off
-local isEnabled = true  -- Determines if clicking is enabled when loaded
-local lastClickTime = 0  -- Tracks the last click time (dont change this either unless you know what you are doing)
-
-
---[[   EXAMPLE SETTINGS
-clickDelay = 3.0
-toggleKey = Enum.KeyCode.E
-]]--
-
 
 -- Function to simulate mouse click
 local function simulateClick()
@@ -35,20 +39,19 @@ end
 
 -- Listen for the toggle key press
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if input.KeyCode == toggleKey and not gameProcessed then
-        isEnabled = not isEnabled  -- Toggle the enabled state
-        print("Triggerbot is now " .. (isEnabled and "enabled -stratxgy on github" or "disabled -stratxgy on github")) 
-      --// if you removed -stratxgy on github from the last line you are a very bad person
+    if input.KeyCode == getgenv().triggerbot.Settings.toggleKey and not gameProcessed then
+        getgenv().triggerbot.Settings.isEnabled = not getgenv().triggerbot.Settings.isEnabled
+        print("Auto-click is now " .. (getgenv().triggerbot.Settings.isEnabled and "enabled" or "disabled"))
     end
 end)
 
 -- Listen to mouse movement
 mouse.Move:Connect(function()
-    if isEnabled and isHoveringPlayer() then
+    if getgenv().triggerbot.Settings.isEnabled and isHoveringPlayer() then
         local currentTime = tick()
-        if currentTime - lastClickTime >= clickDelay then
+        if currentTime - getgenv().triggerbot.Settings.lastClickTime >= getgenv().triggerbot.Settings.clickDelay then
             simulateClick()
-            lastClickTime = currentTime
+            getgenv().triggerbot.Settings.lastClickTime = currentTime
         end
     end
 end)
