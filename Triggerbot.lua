@@ -5,7 +5,7 @@ local mouse = LocalPlayer:GetMouse()
 
 local clickDelay = 0.2  -- Time in seconds to wait before clicking
 local toggleKey = Enum.KeyCode.T  -- Key to toggle the clicking on and off
-local isEnabled = false  -- Determines if clicking is enabled, dont change please :)
+local isEnabled = true  -- Determines if clicking is enabled when loaded
 local lastClickTime = 0  -- Tracks the last click time (dont change this either unless you know what you are doing)
 
 
