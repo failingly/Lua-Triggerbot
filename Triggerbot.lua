@@ -19,6 +19,7 @@ getgenv().triggerbot = {
 
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
+local StarterGui = game:GetService("StarterGui")
 local LocalPlayer = Players.LocalPlayer
 local mouse = LocalPlayer:GetMouse()
 
@@ -40,11 +41,24 @@ local function isHoveringPlayer()
     return false
 end
 
+-- Function to create a notification in the bottom right
+local function createNotification(message)
+    StarterGui:SetCore("SendNotification", {
+        Title = "Triggerbot",
+        Text = message,
+        Duration = 2,  -- Duration in seconds
+    })
+end
+
 -- Listen for the toggle key press
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if input.KeyCode == getgenv().triggerbot.Settings.toggleKey and not gameProcessed then
         getgenv().triggerbot.Settings.isEnabled = not getgenv().triggerbot.Settings.isEnabled
-        print("Triggerbot is now " .. (getgenv().triggerbot.Settings.isEnabled and "enabled -stratxgy on github" or "disabled -stratxgy on github"))
+        local statusMessage = getgenv().triggerbot.Settings.isEnabled and "enabled -stratxgy on github" or "disabled -stratxgy on github"
+        print("Triggerbot is now " .. statusMessage)
+        
+        -- Show notification
+        createNotification("Triggerbot is now " .. statusMessage)
     end
 end)
 
