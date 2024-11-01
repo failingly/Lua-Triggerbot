@@ -1,7 +1,17 @@
+-- Check if the script is already loaded
+if getgenv().triggerbotLoaded then
+    print("Triggerbot is already loaded.")
+    return
+end
+
+-- Mark the script as loaded
+getgenv().triggerbotLoaded = true
+
+-- Script starts here
 getgenv().triggerbot = {
     Settings = {
-        isEnabled = true,  -- Determines if clicking is enabled
-        clickDelay = 0.2,   -- Time in seconds to wait before clicking
+        isEnabled = false,  -- Determines if clicking is enabled
+        clickDelay = 0.5,   -- Time in seconds to wait before clicking
         toggleKey = Enum.KeyCode.T,  -- Key to toggle the clicking on and off
         lastClickTime = 0   -- Tracks the last click time
     }
@@ -35,7 +45,6 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if input.KeyCode == getgenv().triggerbot.Settings.toggleKey and not gameProcessed then
         getgenv().triggerbot.Settings.isEnabled = not getgenv().triggerbot.Settings.isEnabled
         print("Triggerbot is now " .. (getgenv().triggerbot.Settings.isEnabled and "enabled -stratxgy on github" or "disabled -stratxgy on github"))
-          --// DO NOT REMOVE "-stratxgy on github"
     end
 end)
 
