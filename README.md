@@ -1,6 +1,6 @@
 # Roblox-Lua-Triggerbot
 one of the only working triggerbots in roblox -- of course made by your favorite skid
-11/1/24 added notification when toggled
+## 11/1/24 added notification when toggled
 
 ## Load the library
 ```lua
