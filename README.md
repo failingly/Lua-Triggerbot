@@ -13,7 +13,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Stratxgy/Roblox-Lua-T
 getgenv().triggerbot = {
     Settings = {
         isEnabled = false,           -- Determines if clicking is enabled
-        clickDelay = 0.5,            -- Time in seconds to wait before clicking
+        clickDelay = 0,            -- Time in seconds to wait before clicking
         toggleKey = Enum.KeyCode.T,  -- Key to toggle the clicking on and off
         lastClickTime = 0            -- Tracks the last click time
     }
