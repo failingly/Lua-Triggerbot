@@ -7,10 +7,6 @@ one of the only working triggerbots in roblox -- of course made by your favorite
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Stratxgy/Roblox-Lua-Triggerbot/refs/heads/main/Triggerbot.lua"))()
 ```
 
-## Load the triggerbot
-```lua
-getgenv().triggerbot.Load()
-```
 
 ## Customizable Settings - do not execute this code
 ```lua
