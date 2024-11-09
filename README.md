@@ -1,4 +1,4 @@
-# Roblox-Lua-Triggerbot
+# Roblox-Lua-Triggerbot | Make sure to drop a ⭐ if you liked the script
 one of the only working triggerbots in roblox -- of course made by your favorite skid
 ## 11/1/24 added notification when toggled
 
