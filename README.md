@@ -19,6 +19,11 @@ getgenv().triggerbot = {
     }
 ```
 
+## You must run this code for it to work:
+```lua
+getgenv().triggerbot.load()
+```
+
 ## Change the settings
 here's an example:
 ```lua
