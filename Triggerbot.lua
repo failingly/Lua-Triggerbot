@@ -1,77 +1,57 @@
--- Check if the script is already loaded
-if getgenv().triggerbotLoaded then
-    print("Triggerbot is already loaded.")
-    return
-end
-
--- Mark the script as loaded
+-- Prevent duplicate loading
+if getgenv().triggerbotLoaded then return end
 getgenv().triggerbotLoaded = true
 
--- Define the triggerbot table
+-- Main triggerbot configuration
 getgenv().triggerbot = {
     Settings = {
-        isEnabled = false,  -- Determines if clicking is enabled
-        clickDelay = 0,   -- Time in seconds to wait before clicking
-        toggleKey = Enum.KeyCode.T,  -- Key to toggle the clicking on and off
-        lastClickTime = 0   -- Tracks the last click time
+        isEnabled = false,  -- Master switch for the triggerbot functionality
+        clickDelay = 0,     -- Delay between clicks in seconds (0 = instant clicking)
+        toggleKey = Enum.KeyCode.T,  -- Hotkey to toggle triggerbot on/off
+        lastClickTime = 0   -- Internal timestamp tracker for click delay
     },
+    
     load = function()
+        -- Cache services for better performance
         local Players = game:GetService("Players")
         local UserInputService = game:GetService("UserInputService")
-        local StarterGui = game:GetService("StarterGui")
         local LocalPlayer = Players.LocalPlayer
         local mouse = LocalPlayer:GetMouse()
-
-        -- Function to simulate mouse click
+        
+        -- Helper function: Performs the actual mouse click simulation
         local function simulateClick()
             mouse1click()
         end
-
-        -- Function to check if the hovered part belongs to another player
+        
+        -- Helper function: Detects if mouse is hovering over another player's character
         local function isHoveringPlayer()
             local target = mouse.Target
-
-            if target then
-                local character = target:FindFirstAncestorOfClass("Model")
-                if character and Players:GetPlayerFromCharacter(character) then
-                    return true
-                end
-            end
-            return false
+            if not target then return false end
+            
+            local character = target:FindFirstAncestorOfClass("Model")
+            return character and Players:GetPlayerFromCharacter(character) ~= nil
         end
-
-        -- Function to create a notification in the bottom right
-        local function createNotification(message)
-            StarterGui:SetCore("SendNotification", {
-                Title = "Triggerbot",
-                Text = message,
-                Duration = 2,  -- Duration in seconds
-            })
-        end
-
-        -- Listen for the toggle key press
+        
+        -- Set up toggle key detection
         UserInputService.InputBegan:Connect(function(input, gameProcessed)
-            if input.KeyCode == getgenv().triggerbot.Settings.toggleKey and not gameProcessed then
-                getgenv().triggerbot.Settings.isEnabled = not getgenv().triggerbot.Settings.isEnabled
-                local statusMessage = getgenv().triggerbot.Settings.isEnabled and "enabled - stratxgy on github" or "disabled - stratxgy on github"
-                print("Triggerbot is now " .. statusMessage)
-                
-                -- Show notification
-                createNotification("Triggerbot is now " .. statusMessage)
+            -- Only process our toggle key and ignore if game is already handling the input
+            if input.KeyCode == triggerbot.Settings.toggleKey and not gameProcessed then
+                -- Toggle the enabled state
+                triggerbot.Settings.isEnabled = not triggerbot.Settings.isEnabled
             end
         end)
-
-        -- Listen to mouse movement
+        
+        -- Set up mouse movement detection
         mouse.Move:Connect(function()
-            if getgenv().triggerbot.Settings.isEnabled and isHoveringPlayer() then
+            -- Only proceed if triggerbot is enabled and mouse is over a player
+            if triggerbot.Settings.isEnabled and isHoveringPlayer() then
                 local currentTime = tick()
-                if currentTime - getgenv().triggerbot.Settings.lastClickTime >= getgenv().triggerbot.Settings.clickDelay then
+                -- Check if enough time has passed since last click (respects click delay)
+                if currentTime - triggerbot.Settings.lastClickTime >= triggerbot.Settings.clickDelay then
                     simulateClick()
-                    getgenv().triggerbot.Settings.lastClickTime = currentTime
+                    triggerbot.Settings.lastClickTime = currentTime
                 end
             end
         end)
     end
 }
-
-
