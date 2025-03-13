@@ -2,7 +2,7 @@
 
 ## Load the library
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Stratxgy/Roblox-Lua-Triggerbot/refs/heads/main/Triggerbot.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/failingly/Lua-Triggerbot/refs/heads/main/Triggerbot.lua"))()
 ```
 
 
